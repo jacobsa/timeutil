@@ -18,9 +18,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/jacobsa/timeutil"
 	. "github.com/jacobsa/oglematchers"
 	. "github.com/jacobsa/ogletest"
+	"github.com/jacobsa/timeutil"
 )
 
 func TestTimeEq(t *testing.T) { RunTests(t) }
@@ -76,6 +76,12 @@ func (t *TimeEqTest) ActualAndExpectedDontMatch() {
 
 	AssertNe(nil, err)
 	ExpectThat(err, Error(HasSubstr("off by 2s")))
+
+	// Wrong location
+	err = matcher.Matches(expected.UTC())
+
+	AssertNe(nil, err)
+	ExpectThat(err, Error(Equals("")))
 }
 
 func (t *TimeEqTest) ActualAndExpectedMatch() {
